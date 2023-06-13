@@ -4,7 +4,21 @@ const btn = document.getElementById("btn");
 const ul = document.querySelector("ul");
 //?functions
 function domaYaz({ id, text }) {
-  ul.innerHTML += ` <li id=${id} class =''> <i class="fa fa-check"></i><span>${text}</span><i class="fa fa-trash"></i></li>`;
+  // const { id, text, flag } = task;
+
+  const li = document.createElement("li");
+  li.id = id;
+  ul.prepend(li);
+  const iCheck = document.createElement("i");
+  iCheck.classList.add("fa", "fa-check");
+  li.prepend(iCheck);
+  const span = document.createElement("span");
+  iCheck.after(span);
+  const content = document.createTextNode(text);
+  span.appendChild(content);
+  const iTrash = document.createElement("i");
+  iTrash.classList.add("fa", "fa-trash");
+  li.appendChild(iTrash);
 }
 let tasks = [];
 btn.addEventListener("click", () => {
@@ -12,7 +26,7 @@ btn.addEventListener("click", () => {
     alert("Please enter your todo...");
   } else {
     const task = {
-      id: new Date().getTime(), 
+      id: new Date().getTime(), //Date.now()
       text: input.value,
     };
     tasks.push(task);
@@ -21,7 +35,6 @@ btn.addEventListener("click", () => {
     input.value = "";
     input.focus();
   }
-  console.log(tasks);
 });
 window.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
@@ -35,8 +48,22 @@ ul.addEventListener("click", (e) => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
     e.target.parentElement.remove();
   }
+  // if (e.target.classList.contains("fa-check")) {
+  //     tasks.map((task, index) => {
+  //         if (task.id == id) {
+  //             tasks[index].flag = !tasks[index].flag;
+  //         }
+  //     })
+  // };
   localStorage.setItem("tasks", JSON.stringify(tasks));
-  if (e.target.parentElement.classList.toggle("checked")) {
+  //  if (e.target.parentElement.classList.contains("checked")) {
+  //   e.target.parentElement.classList.remove("checked");
+  // } else {
+  //   //? ilgili li elementinde checked adinda bir class yoksa ekle
+  //   e.target.parentElement.classList.add("checked");
+  // }
+  if (e.target.classList.contains("fa-check")) {
+    e.target.parentElement.classList.toggle("checked");
   }
 });
 window.addEventListener("load", () => {
@@ -45,3 +72,4 @@ window.addEventListener("load", () => {
     domaYaz(task);
   });
 });
+// localStorage.clear()

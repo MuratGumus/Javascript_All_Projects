@@ -10,7 +10,7 @@ document.getElementById("start-timer").addEventListener("click", () => {
         clearInterval(int);
     }
     int = setInterval(displayTimer, 10);
-});
+}); 
 
 function displayTimer() {
     milliseconds += 10;
